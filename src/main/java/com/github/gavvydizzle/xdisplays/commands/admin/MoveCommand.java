@@ -90,6 +90,14 @@ public class MoveCommand extends SubCommand {
                 relY ? display.getLocation().getY() + y : y,
                 relZ ? display.getLocation().getZ() + z : z
         );
+
+        double dist = newLoc.toVector().distance(display.getLocation().toVector());
+        if (dist > 100) {
+            sender.sendMessage(ChatColor.RED + "This command would have teleported your display " + (int) dist + " blocks away");
+            sender.sendMessage(ChatColor.YELLOW + "If you actually want to move it a large distance, delete this and create a new one");
+            return;
+        }
+
         display.teleport(newLoc);
 
         sender.sendMessage(ChatColor.YELLOW + "Updated display location to (" + Numbers.round(newLoc.getX(), 4) +
