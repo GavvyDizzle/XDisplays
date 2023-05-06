@@ -101,12 +101,6 @@ public class SetItemCommand extends SubCommand {
         if (args.length == 2) {
             StringUtil.copyPartialMatches(args[1], args2, list);
         }
-        else if (args.length == 3) {
-            StringUtil.copyPartialMatches(args[2], args2, list);
-        }
-        else if (args.length == 4) {
-            StringUtil.copyPartialMatches(args[3], args2, list);
-        }
 
         return list;
     }
