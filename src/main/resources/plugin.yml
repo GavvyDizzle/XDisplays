@@ -1,0 +1,10 @@
+name: XDisplays
+version: '${project.version}'
+main: com.github.gavvydizzle.xdisplays.XDisplays
+api-version: 1.19
+commands:
+  xdisplay:
+    aliases: [xd]
+    description: XDisplay commands
+    permission: xdisplay.admin
+    permission-message: Insufficient permission
