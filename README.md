@@ -2,13 +2,13 @@
 A simple plugin to add command based support for the new 1.19.4 Block and Item Displays
 
 ### Features
-- A simple command interface to interact with the displays
+- A simple command interface to interact with Block and Item Displays
 
 ### Requirements
 - This plugin has one dependency: [ServerUtils](https://www.spigotmc.org/resources/serverutils.106515/)
 
 ### Commands
- - The bade command is `xdisplay` (alias `xd`) with permission `xdisplay.admin`
+ - The base command is `xdisplay` (alias `xd`) with permission `xdisplay.admin`
  - Subcommands do not require any permission besides the one listed above
  - `/xd help` Opens the help menu
  - `/xd brightness <all|block|sky> <amount>` Change the brightness of your selected display
@@ -38,3 +38,4 @@ A simple plugin to add command based support for the new 1.19.4 Block and Item D
    - To match the size of an item use `0.5`
  - This plugin has no support for Text Displays. You should use a hologram plugin for it
  - This plugin has no support for Interaction entities
+ - Check out the [Spigot API](https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/Display.html) for more information about the new Display entity

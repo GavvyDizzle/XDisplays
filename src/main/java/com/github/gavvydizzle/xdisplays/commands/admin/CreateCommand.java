@@ -69,7 +69,7 @@ public class CreateCommand extends SubCommand {
         Player player = (Player) sender;
 
         if (args[1].equalsIgnoreCase("block")) {
-            BlockDisplay blockDisplay = (BlockDisplay) player.getWorld().spawnEntity(player.getLocation(), EntityType.BLOCK_DISPLAY);
+            BlockDisplay blockDisplay = (BlockDisplay) player.getWorld().spawnEntity(player.getLocation().getBlock().getLocation(), EntityType.BLOCK_DISPLAY);
             try {
                 blockDisplay.setBlock(material.createBlockData());
             } catch (Exception e) {
