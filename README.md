@@ -5,7 +5,7 @@ A simple plugin to add command based support for the new 1.19.4 Block and Item D
 - A simple command interface to interact with Block and Item Displays
 
 ### Requirements
-- This plugin has one dependency: [ServerUtils](https://www.spigotmc.org/resources/serverutils.106515/)
+- This plugin has one dependency: [ServerUtils](https://www.spigotmc.org/resources/serverutils.106515/) v1.0.2
 
 ### Commands
  - The base command is `xdisplay` (alias `xd`) with permission `xdisplay.admin`
@@ -22,8 +22,12 @@ A simple plugin to add command based support for the new 1.19.4 Block and Item D
  - `/xd reset [arg]` Reset properties of the display
  - `/xd rotate <x> <y> <z>` Rotate this display by adding degrees to each axis (using the left internal rotation)
  - `/xd select [range]` Select the closest display to you
- - `/xd size [size]` Change or view display size
+ - `/xd setInterpolationDelay <ticks>` Change the interpolation delay
+ - `/xd setInterpolationDuration <ticks>` Change the interpolation duration
+ - `/xd size [size] [y-size] [z-size]` Change or view display size
+ - `/xd select [range]` Select the closest display to you
  - `/xd tph <copyRotation>` Teleport display to you (if copyRotation=true then it will copy your pitch and yaw)
+ - `/xd transform <x,y,z> <x,y,z> <x,y,z> <x,y,z>` Transform the display
 
 ### Rotation Tutorial
  - Generally, you will want to rotate the display on one axis at a time

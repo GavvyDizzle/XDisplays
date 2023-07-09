@@ -35,7 +35,7 @@ public class SizeCommand extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/" + adminCommandManager.getCommandDisplayName() + " size [size]";
+        return "/" + adminCommandManager.getCommandDisplayName() + " size [size] [y-size] [z-size]";
     }
 
     @Override
@@ -54,26 +54,42 @@ public class SizeCommand extends SubCommand {
             return;
         }
 
-        // Currently the size is the same on all axis
-        float oldSize = display.getTransformation().getScale().get(0);
+        Vector3f oldSize = display.getTransformation().getScale();
 
         if (args.length == 1) {
             sender.sendMessage(ChatColor.YELLOW + "Current size: " + oldSize);
-            return;
         }
-
-        float size;
-        try {
-            size = Float.parseFloat(args[1]);
-            display.setTransformation(new Transformation(
-                    display.getTransformation().getTranslation(),
-                    display.getTransformation().getLeftRotation(),
-                    new Vector3f(1,1,1).mul(size), // Update the size
-                    display.getTransformation().getRightRotation()
-            ));
-            sender.sendMessage(ChatColor.YELLOW + "Updated the size to " + size + " (was " + oldSize + ")");
-        } catch (Exception e) {
-            sender.sendMessage("Invalid size");
+        else if (args.length == 2) {
+            float size;
+            try {
+                size = Float.parseFloat(args[1]);
+                display.setTransformation(new Transformation(
+                        display.getTransformation().getTranslation(),
+                        display.getTransformation().getLeftRotation(),
+                        new Vector3f(1,1,1).mul(size), // Update the size
+                        display.getTransformation().getRightRotation()
+                ));
+                sender.sendMessage(ChatColor.YELLOW + "Updated the size to " + size + " (was " + oldSize + ")");
+            } catch (Exception e) {
+                sender.sendMessage("Invalid size");
+            }
+        }
+        else if (args.length == 4) {
+            try {
+                Vector3f newSize = new Vector3f(Float.parseFloat(args[1]), Float.parseFloat(args[2]), Float.parseFloat(args[3]));
+                display.setTransformation(new Transformation(
+                        display.getTransformation().getTranslation(),
+                        display.getTransformation().getLeftRotation(),
+                        newSize, // Update the size
+                        display.getTransformation().getRightRotation()
+                ));
+                sender.sendMessage(ChatColor.YELLOW + "Updated the size to " + newSize + " (was " + oldSize + ")");
+            } catch (Exception e) {
+                sender.sendMessage("Invalid size");
+            }
+        }
+        else {
+            sender.sendMessage(ChatColor.RED + "Invalid size arguments. You must provide 0, 1, or 3");
         }
     }
 

@@ -6,35 +6,34 @@ import com.github.mittenmc.serverutils.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Display;
-import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.List;
 
-public class DeleteCommand extends SubCommand {
+public class SetInterpolationDelayCommand extends SubCommand {
 
     private final AdminCommandManager adminCommandManager;
     private final DisplayManager displayManager;
 
-    public DeleteCommand(AdminCommandManager adminCommandManager, DisplayManager displayManager) {
+    public SetInterpolationDelayCommand(AdminCommandManager adminCommandManager, DisplayManager displayManager) {
         this.adminCommandManager = adminCommandManager;
         this.displayManager = displayManager;
     }
 
     @Override
     public String getName() {
-        return "delete";
+        return "setInterpolationDelay";
     }
 
     @Override
     public String getDescription() {
-        return "Delete your selected display";
+        return "Change the interpolation delay";
     }
 
     @Override
     public String getSyntax() {
-        return "/" + adminCommandManager.getCommandDisplayName() + " delete";
+        return "/" + adminCommandManager.getCommandDisplayName() + " setInterpolationDelay <ticks>";
     }
 
     @Override
@@ -46,6 +45,11 @@ public class DeleteCommand extends SubCommand {
     public void perform(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) return;
 
+        if (args.length < 1) {
+            sender.sendMessage(getColoredSyntax());
+            return;
+        }
+
         Player player = (Player) sender;
         Display display = displayManager.getDisplay(player.getUniqueId());
         if (display == null) {
@@ -53,10 +57,22 @@ public class DeleteCommand extends SubCommand {
             return;
         }
 
-        displayManager.removeDisplay(player);
-        String name = display instanceof ItemDisplay ? "item display" : "block display";
-        sender.sendMessage(ChatColor.YELLOW + "Deleted " + name);
-        display.remove();
+        int delay;
+        try {
+            delay = Integer.parseInt(args[1]);
+        } catch (Exception e) {
+            sender.sendMessage(ChatColor.RED + "Invalid delay");
+            return;
+        }
+        if (delay < 0) {
+            sender.sendMessage(ChatColor.RED + "Invalid delay");
+            return;
+        }
+
+        int oldDelay = display.getInterpolationDelay();
+
+        display.setInterpolationDelay(delay);
+        sender.sendMessage(ChatColor.GREEN + "Updated interpolation delay to " + delay + " (was " + oldDelay + ")");
     }
 
     @Override

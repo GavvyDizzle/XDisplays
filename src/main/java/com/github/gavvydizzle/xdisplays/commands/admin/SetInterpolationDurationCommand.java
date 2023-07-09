@@ -6,35 +6,34 @@ import com.github.mittenmc.serverutils.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Display;
-import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.List;
 
-public class DeleteCommand extends SubCommand {
+public class SetInterpolationDurationCommand extends SubCommand {
 
     private final AdminCommandManager adminCommandManager;
     private final DisplayManager displayManager;
 
-    public DeleteCommand(AdminCommandManager adminCommandManager, DisplayManager displayManager) {
+    public SetInterpolationDurationCommand(AdminCommandManager adminCommandManager, DisplayManager displayManager) {
         this.adminCommandManager = adminCommandManager;
         this.displayManager = displayManager;
     }
 
     @Override
     public String getName() {
-        return "delete";
+        return "setInterpolationDuration";
     }
 
     @Override
     public String getDescription() {
-        return "Delete your selected display";
+        return "Change the interpolation duration";
     }
 
     @Override
     public String getSyntax() {
-        return "/" + adminCommandManager.getCommandDisplayName() + " delete";
+        return "/" + adminCommandManager.getCommandDisplayName() + " setInterpolationDuration <ticks>";
     }
 
     @Override
@@ -46,6 +45,11 @@ public class DeleteCommand extends SubCommand {
     public void perform(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) return;
 
+        if (args.length < 1) {
+            sender.sendMessage(getColoredSyntax());
+            return;
+        }
+
         Player player = (Player) sender;
         Display display = displayManager.getDisplay(player.getUniqueId());
         if (display == null) {
@@ -53,10 +57,18 @@ public class DeleteCommand extends SubCommand {
             return;
         }
 
-        displayManager.removeDisplay(player);
-        String name = display instanceof ItemDisplay ? "item display" : "block display";
-        sender.sendMessage(ChatColor.YELLOW + "Deleted " + name);
-        display.remove();
+        int duration;
+        try {
+            duration = Integer.parseInt(args[1]);
+        } catch (Exception e) {
+            sender.sendMessage(ChatColor.RED + "Invalid duration");
+            return;
+        }
+
+        int oldDuration = display.getInterpolationDuration();
+
+        display.setInterpolationDuration(duration);
+        sender.sendMessage(ChatColor.GREEN + "Updated interpolation duration to " + duration + " (was " + oldDuration + ")");
     }
 
     @Override

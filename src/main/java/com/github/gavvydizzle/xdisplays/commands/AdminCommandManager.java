@@ -45,10 +45,13 @@ public class AdminCommandManager implements TabExecutor {
         subcommands.add(new ResetCommand(this, displayManager));
         subcommands.add(new RotateCommand(this, displayManager));
         subcommands.add(new SelectCommand(this, instance, displayManager));
+        subcommands.add(new SetInterpolationDelayCommand(this, displayManager));
+        subcommands.add(new SetInterpolationDurationCommand(this, displayManager));
         subcommands.add(new SetItemCommand(this, displayManager));
         subcommands.add(new SetMaterialCommand(this, displayManager));
         subcommands.add(new SizeCommand(this, displayManager));
         subcommands.add(new TeleportHereCommand(this, displayManager));
+        subcommands.add(new TransformCommand(this, displayManager));
         Collections.sort(subcommands);
 
         for (SubCommand subCommand : subcommands) {
