@@ -24,6 +24,7 @@ A simple plugin to add command based support for the new 1.19.4 Block and Item D
  - `/xd select [range]` Select the closest display to you
  - `/xd setInterpolationDelay <ticks>` Change the interpolation delay
  - `/xd setInterpolationDuration <ticks>` Change the interpolation duration
+ - `/xd setTeleportDuration <ticks>` Change the teleportation ticks (0-59)
  - `/xd size [size] [y-size] [z-size]` Change or view display size
  - `/xd select [range]` Select the closest display to you
  - `/xd tph <copyRotation>` Teleport display to you (if copyRotation=true then it will copy your pitch and yaw)
