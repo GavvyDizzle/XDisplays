@@ -14,39 +14,22 @@ import java.util.List;
 
 public class DeleteCommand extends SubCommand {
 
-    private final AdminCommandManager adminCommandManager;
     private final DisplayManager displayManager;
 
     public DeleteCommand(AdminCommandManager adminCommandManager, DisplayManager displayManager) {
-        this.adminCommandManager = adminCommandManager;
         this.displayManager = displayManager;
-    }
 
-    @Override
-    public String getName() {
-        return "delete";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Delete your selected display";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/" + adminCommandManager.getCommandDisplayName() + " delete";
-    }
-
-    @Override
-    public String getColoredSyntax() {
-        return ChatColor.YELLOW + "Usage: " + getSyntax();
+        setName("delete");
+        setDescription("Delete your selected display");
+        setSyntax("/" + adminCommandManager.getCommandDisplayName() + " delete");
+        setColoredSyntax(ChatColor.YELLOW + getSyntax());
+        setPermission(adminCommandManager.getPermissionPrefix() + getName().toLowerCase());
     }
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        if (!(sender instanceof Player)) return;
+        if (!(sender instanceof Player player)) return;
 
-        Player player = (Player) sender;
         Display display = displayManager.getDisplay(player.getUniqueId());
         if (display == null) {
             sender.sendMessage(ChatColor.RED + "No display selected");

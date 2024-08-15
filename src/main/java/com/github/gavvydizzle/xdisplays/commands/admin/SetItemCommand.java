@@ -19,60 +19,41 @@ import java.util.Objects;
 
 public class SetItemCommand extends SubCommand {
 
-    private final AdminCommandManager adminCommandManager;
     private final DisplayManager displayManager;
-
     private final ArrayList<String> args2 = new ArrayList<>(Arrays.asList("get", "set"));
 
     public SetItemCommand(AdminCommandManager adminCommandManager, DisplayManager displayManager) {
-        this.adminCommandManager = adminCommandManager;
         this.displayManager = displayManager;
-    }
 
-    @Override
-    public String getName() {
-        return "item";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Edit the item of an item display";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/" + adminCommandManager.getCommandDisplayName() + " item <get|set>";
-    }
-
-    @Override
-    public String getColoredSyntax() {
-        return ChatColor.YELLOW + "Usage: " + getSyntax();
+        setName("item");
+        setDescription("Edit the item of an item display");
+        setSyntax("/" + adminCommandManager.getCommandDisplayName() + " item <get|set>");
+        setColoredSyntax(ChatColor.YELLOW + getSyntax());
+        setPermission(adminCommandManager.getPermissionPrefix() + getName().toLowerCase());
     }
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        if (!(sender instanceof Player)) return;
+        if (!(sender instanceof Player player)) return;
 
         if (args.length < 2) {
             sender.sendMessage(getColoredSyntax());
             return;
         }
 
-        Player player = (Player) sender;
         Display display = displayManager.getDisplay(player.getUniqueId());
         if (display == null) {
             sender.sendMessage(ChatColor.RED + "No display selected");
             return;
         }
 
-        if (!(display instanceof ItemDisplay)) {
+        if (!(display instanceof ItemDisplay itemDisplay)) {
             sender.sendMessage(ChatColor.RED + "Selected display must be an item display");
             return;
         }
-        ItemDisplay itemDisplay = (ItemDisplay) display;
 
         if (args[1].equalsIgnoreCase("get")) {
-            if (player.getInventory().addItem(Objects.requireNonNull(itemDisplay.getItemStack()).clone()).size() == 0) {
+            if (player.getInventory().addItem(Objects.requireNonNull(itemDisplay.getItemStack()).clone()).isEmpty()) {
                 sender.sendMessage(ChatColor.GREEN + "This display's item has been added to your inventory");
             }
             else {

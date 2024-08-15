@@ -22,38 +22,23 @@ public class SetMaterialCommand extends SubCommand {
     public SetMaterialCommand(AdminCommandManager adminCommandManager, DisplayManager displayManager) {
         this.adminCommandManager = adminCommandManager;
         this.displayManager = displayManager;
-    }
 
-    @Override
-    public String getName() {
-        return "material";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Change the display material";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/" + adminCommandManager.getCommandDisplayName() + " material <material>";
-    }
-
-    @Override
-    public String getColoredSyntax() {
-        return ChatColor.YELLOW + "Usage: " + getSyntax();
+        setName("material");
+        setDescription("Change the display material");
+        setSyntax("/" + adminCommandManager.getCommandDisplayName() + " material <material>");
+        setColoredSyntax(ChatColor.YELLOW + getSyntax());
+        setPermission(adminCommandManager.getPermissionPrefix() + getName().toLowerCase());
     }
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        if (!(sender instanceof Player)) return;
+        if (!(sender instanceof Player player)) return;
 
         if (args.length < 2) {
             sender.sendMessage(getColoredSyntax());
             return;
         }
 
-        Player player = (Player) sender;
         Display display = displayManager.getDisplay(player.getUniqueId());
         if (display == null) {
             sender.sendMessage(ChatColor.RED + "No display selected");
@@ -67,13 +52,11 @@ public class SetMaterialCommand extends SubCommand {
         }
 
 
-        if (display instanceof BlockDisplay) {
-            BlockDisplay blockDisplay = (BlockDisplay) display;
+        if (display instanceof BlockDisplay blockDisplay) {
             blockDisplay.setBlock(material.createBlockData());
             sender.sendMessage(ChatColor.GREEN + "Updated block display material to " + material.name());
         }
-        else if (display instanceof ItemDisplay) {
-            ItemDisplay itemDisplay = (ItemDisplay) display;
+        else if (display instanceof ItemDisplay itemDisplay) {
             itemDisplay.setItemStack(new ItemStack(material));
             sender.sendMessage(ChatColor.GREEN + "Updated item display material to " + material.name());
         }

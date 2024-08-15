@@ -5,7 +5,7 @@ A simple plugin to add command based support for the new 1.19.4 Block and Item D
 - A simple command interface to interact with Block and Item Displays
 
 ### Requirements
-- This plugin has one dependency: [ServerUtils](https://www.spigotmc.org/resources/serverutils.106515/) v1.0.2
+- This plugin has one dependency: [ServerUtils](https://www.spigotmc.org/resources/serverutils.106515/) v1.1.7+
 
 ### Commands
  - The base command is `xdisplay` (alias `xd`) with permission `xdisplay.admin`

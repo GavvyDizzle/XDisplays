@@ -16,46 +16,28 @@ import java.util.List;
 
 public class RotateCommand extends SubCommand {
 
-    private final AdminCommandManager adminCommandManager;
     private final DisplayManager displayManager;
-
     private final ArrayList<String> args2 = new ArrayList<>(Arrays.asList("0", "90", "180", "270"));
 
     public RotateCommand(AdminCommandManager adminCommandManager, DisplayManager displayManager) {
-        this.adminCommandManager = adminCommandManager;
         this.displayManager = displayManager;
-    }
 
-    @Override
-    public String getName() {
-        return "rotate";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Rotate this display (left)";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/" + adminCommandManager.getCommandDisplayName() + " rotate <x> <y> <z>";
-    }
-
-    @Override
-    public String getColoredSyntax() {
-        return ChatColor.YELLOW + "Usage: " + getSyntax();
+        setName("rotate");
+        setDescription("Rotate this display (left)");
+        setSyntax("/" + adminCommandManager.getCommandDisplayName() + " rotate <x> <y> <z>");
+        setColoredSyntax(ChatColor.YELLOW + getSyntax());
+        setPermission(adminCommandManager.getPermissionPrefix() + getName().toLowerCase());
     }
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        if (!(sender instanceof Player)) return;
+        if (!(sender instanceof Player player)) return;
 
         if (args.length < 4) {
             sender.sendMessage(getColoredSyntax());
             return;
         }
 
-        Player player = (Player) sender;
         Display display = displayManager.getDisplay(player.getUniqueId());
         if (display == null) {
             sender.sendMessage(ChatColor.RED + "No display selected");

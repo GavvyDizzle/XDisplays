@@ -11,7 +11,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class DisplayManager implements Listener {
 
@@ -40,7 +39,7 @@ public class DisplayManager implements Listener {
         double distSquared = Integer.MAX_VALUE;
 
         for (Entity e : Objects.requireNonNull(location.getWorld()).getNearbyEntities(location, range, range, range).stream()
-                .filter(e -> e.getType().equals(EntityType.ITEM_DISPLAY) || e.getType().equals(EntityType.BLOCK_DISPLAY)).collect(Collectors.toList())) {
+                .filter(e -> e.getType().equals(EntityType.ITEM_DISPLAY) || e.getType().equals(EntityType.BLOCK_DISPLAY)).toList()) {
 
             double d = e.getLocation().toVector().distanceSquared(location.toVector());
             if (d < distSquared) {
@@ -66,7 +65,7 @@ public class DisplayManager implements Listener {
         double distSquared = Integer.MAX_VALUE;
 
         for (Entity e : Objects.requireNonNull(location.getWorld()).getNearbyEntities(location, range, range, range).stream()
-                .filter(e -> e.getType().equals(EntityType.BLOCK_DISPLAY)).collect(Collectors.toList())) {
+                .filter(e -> e.getType().equals(EntityType.BLOCK_DISPLAY)).toList()) {
 
             double d = e.getLocation().toVector().distanceSquared(location.toVector());
             if (d < distSquared) {
@@ -92,7 +91,7 @@ public class DisplayManager implements Listener {
         double distSquared = Integer.MAX_VALUE;
 
         for (Entity e : Objects.requireNonNull(location.getWorld()).getNearbyEntities(location, range, range, range).stream()
-                .filter(e -> e.getType().equals(EntityType.ITEM_DISPLAY)).collect(Collectors.toList())) {
+                .filter(e -> e.getType().equals(EntityType.ITEM_DISPLAY)).toList()) {
 
             double d = e.getLocation().toVector().distanceSquared(location.toVector());
             if (d < distSquared) {

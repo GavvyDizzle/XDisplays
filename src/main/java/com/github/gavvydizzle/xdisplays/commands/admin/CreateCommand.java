@@ -25,31 +25,17 @@ public class CreateCommand extends SubCommand {
     public CreateCommand(AdminCommandManager adminCommandManager, DisplayManager displayManager) {
         this.adminCommandManager = adminCommandManager;
         this.displayManager = displayManager;
-    }
 
-    @Override
-    public String getName() {
-        return "create";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Create a new display";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/" + adminCommandManager.getCommandDisplayName() + " create <type> [material]";
-    }
-
-    @Override
-    public String getColoredSyntax() {
-        return ChatColor.YELLOW + "Usage: " + getSyntax();
+        setName("create");
+        setDescription("Create a new display");
+        setSyntax("/" + adminCommandManager.getCommandDisplayName() + " create <type> [material]");
+        setColoredSyntax(ChatColor.YELLOW + getSyntax());
+        setPermission(adminCommandManager.getPermissionPrefix() + getName().toLowerCase());
     }
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        if (!(sender instanceof Player)) return;
+        if (!(sender instanceof Player player)) return;
 
         if (args.length < 2) {
             sender.sendMessage(getColoredSyntax());
@@ -58,15 +44,13 @@ public class CreateCommand extends SubCommand {
 
         Material material = Material.AIR;
         if (args.length >= 3) {
-            material = ConfigUtils.getMaterial(args[2].toUpperCase(), Material.DIRT);
-            if (material == Material.DIRT && !args[2].equalsIgnoreCase("dirt")) {
+            material = ConfigUtils.getNullableMaterial(args[2].toUpperCase());
+            if (material == null) {
                 sender.sendMessage(ChatColor.RED + "Invalid material: " + args[2]);
                 return;
             }
         }
 
-
-        Player player = (Player) sender;
 
         if (args[1].equalsIgnoreCase("block")) {
             BlockDisplay blockDisplay = (BlockDisplay) player.getWorld().spawnEntity(player.getLocation().getBlock().getLocation(), EntityType.BLOCK_DISPLAY);

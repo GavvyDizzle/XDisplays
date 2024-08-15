@@ -13,12 +13,7 @@ public final class XDisplays extends JavaPlugin {
         DisplayManager displayManager = new DisplayManager();
         getServer().getPluginManager().registerEvents(displayManager, this);
 
-        try {
-            new AdminCommandManager(Objects.requireNonNull(getCommand("xdisplay")), this, displayManager);
-        } catch (NullPointerException e) {
-            getLogger().severe("The admin command name was changed in the plugin.yml file. Please make it \"xdisplay\" and restart the server. You can change the aliases but NOT the command name.");
-            getServer().getPluginManager().disablePlugin(this);
-        }
+        new AdminCommandManager(getCommand("xdisplay"), this, displayManager);
     }
 
     @Override

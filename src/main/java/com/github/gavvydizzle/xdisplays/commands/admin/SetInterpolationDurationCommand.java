@@ -13,44 +13,27 @@ import java.util.List;
 
 public class SetInterpolationDurationCommand extends SubCommand {
 
-    private final AdminCommandManager adminCommandManager;
     private final DisplayManager displayManager;
 
     public SetInterpolationDurationCommand(AdminCommandManager adminCommandManager, DisplayManager displayManager) {
-        this.adminCommandManager = adminCommandManager;
         this.displayManager = displayManager;
-    }
 
-    @Override
-    public String getName() {
-        return "setInterpolationDuration";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Change the interpolation duration";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/" + adminCommandManager.getCommandDisplayName() + " setInterpolationDuration <ticks>";
-    }
-
-    @Override
-    public String getColoredSyntax() {
-        return ChatColor.YELLOW + "Usage: " + getSyntax();
+        setName("setInterpolationDuration");
+        setDescription("Change the interpolation duration");
+        setSyntax("/" + adminCommandManager.getCommandDisplayName() + " setInterpolationDuration <ticks>");
+        setColoredSyntax(ChatColor.YELLOW + getSyntax());
+        setPermission(adminCommandManager.getPermissionPrefix() + getName().toLowerCase());
     }
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        if (!(sender instanceof Player)) return;
+        if (!(sender instanceof Player player)) return;
 
         if (args.length < 1) {
             sender.sendMessage(getColoredSyntax());
             return;
         }
 
-        Player player = (Player) sender;
         Display display = displayManager.getDisplay(player.getUniqueId());
         if (display == null) {
             sender.sendMessage(ChatColor.RED + "No display selected");

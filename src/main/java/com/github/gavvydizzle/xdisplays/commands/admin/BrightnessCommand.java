@@ -15,46 +15,28 @@ import java.util.List;
 
 public class BrightnessCommand extends SubCommand {
 
-    private final AdminCommandManager adminCommandManager;
     private final DisplayManager displayManager;
-
     private final ArrayList<String> args2 = new ArrayList<>(Arrays.asList("all", "block", "sky"));
 
     public BrightnessCommand(AdminCommandManager adminCommandManager, DisplayManager displayManager) {
-        this.adminCommandManager = adminCommandManager;
         this.displayManager = displayManager;
-    }
 
-    @Override
-    public String getName() {
-        return "brightness";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Change the brightness";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/" + adminCommandManager.getCommandDisplayName() + " brightness <all|block|sky> <amount>";
-    }
-
-    @Override
-    public String getColoredSyntax() {
-        return ChatColor.YELLOW + "Usage: " + getSyntax();
+        setName("brightness");
+        setDescription("Change the brightness");
+        setSyntax("/" + adminCommandManager.getCommandDisplayName() + " brightness <all|block|sky> <amount>");
+        setColoredSyntax(ChatColor.YELLOW + getSyntax());
+        setPermission(adminCommandManager.getPermissionPrefix() + getName().toLowerCase());
     }
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        if (!(sender instanceof Player)) return;
+        if (!(sender instanceof Player player)) return;
 
         if (args.length < 3) {
             sender.sendMessage(getColoredSyntax());
             return;
         }
 
-        Player player = (Player) sender;
         Display display = displayManager.getDisplay(player.getUniqueId());
         if (display == null) {
             sender.sendMessage(ChatColor.RED + "No display selected");

@@ -10,44 +10,27 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Transformation;
 import org.joml.Vector3f;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SizeCommand extends SubCommand {
 
-    private final AdminCommandManager adminCommandManager;
     private final DisplayManager displayManager;
 
     public SizeCommand(AdminCommandManager adminCommandManager, DisplayManager displayManager) {
-        this.adminCommandManager = adminCommandManager;
         this.displayManager = displayManager;
-    }
 
-    @Override
-    public String getName() {
-        return "size";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Change or view display size";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/" + adminCommandManager.getCommandDisplayName() + " size [size] [y-size] [z-size]";
-    }
-
-    @Override
-    public String getColoredSyntax() {
-        return ChatColor.YELLOW + "Usage: " + getSyntax();
+        setName("size");
+        setDescription("Change or view display size");
+        setSyntax("/" + adminCommandManager.getCommandDisplayName() + " size [size] [y-size] [z-size]");
+        setColoredSyntax(ChatColor.YELLOW + getSyntax());
+        setPermission(adminCommandManager.getPermissionPrefix() + getName().toLowerCase());
     }
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        if (!(sender instanceof Player)) return;
+        if (!(sender instanceof Player player)) return;
 
-        Player player = (Player) sender;
         Display display = displayManager.getDisplay(player.getUniqueId());
         if (display == null) {
             sender.sendMessage(ChatColor.RED + "No display selected");
@@ -95,7 +78,7 @@ public class SizeCommand extends SubCommand {
 
     @Override
     public List<String> getSubcommandArguments(CommandSender sender, String[] args) {
-        return new ArrayList<>();
+        return Collections.emptyList();
     }
 
 }

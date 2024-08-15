@@ -17,44 +17,27 @@ import java.util.List;
 
 public class MoveCommand extends SubCommand {
 
-    private final AdminCommandManager adminCommandManager;
     private final DisplayManager displayManager;
 
     public MoveCommand(AdminCommandManager adminCommandManager, DisplayManager displayManager) {
-        this.adminCommandManager = adminCommandManager;
         this.displayManager = displayManager;
-    }
 
-    @Override
-    public String getName() {
-        return "move";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Move this display";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/" + adminCommandManager.getCommandDisplayName() + " move <x> <y> <z>";
-    }
-
-    @Override
-    public String getColoredSyntax() {
-        return ChatColor.YELLOW + "Usage: " + getSyntax();
+        setName("move");
+        setDescription("Move this display");
+        setSyntax("/" + adminCommandManager.getCommandDisplayName() + " move <x> <y> <z>");
+        setColoredSyntax(ChatColor.YELLOW + getSyntax());
+        setPermission(adminCommandManager.getPermissionPrefix() + getName().toLowerCase());
     }
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        if (!(sender instanceof Player)) return;
+        if (!(sender instanceof Player player)) return;
 
         if (args.length < 4) {
             sender.sendMessage(getColoredSyntax());
             return;
         }
 
-        Player player = (Player) sender;
         Display display = displayManager.getDisplay(player.getUniqueId());
         if (display == null) {
             sender.sendMessage(ChatColor.RED + "No display selected");
@@ -77,9 +60,9 @@ public class MoveCommand extends SubCommand {
 
         float x,y,z;
         try {
-            x = args[1].length() > 0 ? Float.parseFloat(args[1]) : 0;
-            y = args[2].length() > 0 ? Float.parseFloat(args[2]) : 0;
-            z = args[3].length() > 0 ? Float.parseFloat(args[3]) : 0;
+            x = !args[1].isEmpty() ? Float.parseFloat(args[1]) : 0;
+            y = !args[2].isEmpty() ? Float.parseFloat(args[2]) : 0;
+            z = !args[3].isEmpty() ? Float.parseFloat(args[3]) : 0;
         } catch (Exception e) {
             sender.sendMessage(ChatColor.RED + "Invalid location arguments");
             return;
@@ -108,8 +91,7 @@ public class MoveCommand extends SubCommand {
     public List<String> getSubcommandArguments(CommandSender sender, String[] args) {
         ArrayList<String> list = new ArrayList<>();
 
-        if (!(sender instanceof Player)) return list;
-        Player player = (Player) sender;
+        if (!(sender instanceof Player player)) return list;
 
         if (args.length == 2) {
             StringUtil.copyPartialMatches(args[1], Collections.singleton(String.valueOf(player.getLocation().getX())), list);

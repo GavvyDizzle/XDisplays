@@ -11,45 +11,28 @@ import org.bukkit.entity.Display;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SelectCommand extends SubCommand {
 
-    private final AdminCommandManager adminCommandManager;
     private final XDisplays instance;
     private final DisplayManager displayManager;
 
     public SelectCommand(AdminCommandManager adminCommandManager, XDisplays instance, DisplayManager displayManager) {
-        this.adminCommandManager = adminCommandManager;
         this.instance = instance;
         this.displayManager = displayManager;
-    }
 
-    @Override
-    public String getName() {
-        return "select";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Select a nearby display";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/" + adminCommandManager.getCommandDisplayName() + " select [range]";
-    }
-
-    @Override
-    public String getColoredSyntax() {
-        return ChatColor.YELLOW + "Usage: " + getSyntax();
+        setName("select");
+        setDescription("Select a nearby display");
+        setSyntax("/" + adminCommandManager.getCommandDisplayName() + " select [range]");
+        setColoredSyntax(ChatColor.YELLOW + getSyntax());
+        setPermission(adminCommandManager.getPermissionPrefix() + getName().toLowerCase());
     }
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        if (!(sender instanceof Player)) return;
-        Player player = (Player) sender;
+        if (!(sender instanceof Player player)) return;
 
         int range = 3;
         if (args.length > 1) {
@@ -84,6 +67,6 @@ public class SelectCommand extends SubCommand {
 
     @Override
     public List<String> getSubcommandArguments(CommandSender sender, String[] args) {
-        return new ArrayList<>();
+        return Collections.emptyList();
     }
 }
